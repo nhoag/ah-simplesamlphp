@@ -1,10 +1,14 @@
 #!/bin/bash
 
+set -o nounset
+set -o errexit
+
 CWD=$PWD
 DRUSH=`which drush`
 MAKEFILE=$PWD/$1
 SITENAME=$2
-DB=$3
+DB=${3:-$SITENAME}
+SAMLDB=${4:-$DB}
 CURL=`which curl`
 GZIP=`which gzip`
 TAR=`which tar`
@@ -39,7 +43,7 @@ echo -e "" >> $CONFIG
 $CURL -s https://gist.githubusercontent.com/acquialibrary/8059715/raw/8ceedefe20225c21bc45905bbfedd47143b333b6/9191_configphp.txt \
   | $TAIL -n +2 >> $CONFIG
 
-$SED -i "s/mydatabasename/$DB/g" $CONFIG
+$SED -i "s/mydatabasename/$SAMLDB/g" $CONFIG
 $SED -i "s/y0h9d13pki9qdhfm3l5nws4jjn55j6hj/$HASH/g" $CONFIG
 $SED -i "s/mysupersecret/$PASS/g" $CONFIG
 
