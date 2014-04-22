@@ -24,12 +24,13 @@ done
 if [ $# -eq 0 ]; then
   usage
 fi
+
 CWD=$PWD
-MAKE=$1
-MAKEFILE=$PWD/$MAKE
-SITENAME=$2
-DB=${3:-$SITENAME}
-SAMLDB=${4:-$DB}
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+MAKEFILE=$DIR/"sso.make"
+SITENAME=$1
+DB=${2:-$SITENAME}
+SAMLDB=${3:-$DB}
 DRUSH=`which drush`
 CURL=`which curl`
 GZIP=`which gzip`
@@ -62,8 +63,7 @@ ln -s simplesamlphp-1.11.0 simplesamlphp
 
 echo -e "" >> $CONFIG
 
-$CURL -s https://gist.githubusercontent.com/acquialibrary/8059715/raw/8ceedefe20225c21bc45905bbfedd47143b333b6/9191_configphp.txt \
-  | $TAIL -n +2 >> $CONFIG
+cat $DIR/"configphp.txt" >> $CONFIG
 
 $SED -i "s/mydatabasename/$SAMLDB/g" $CONFIG
 $SED -i "s/y0h9d13pki9qdhfm3l5nws4jjn55j6hj/$HASH/g" $CONFIG
