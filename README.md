@@ -10,3 +10,4 @@ git clone git@github.com:nhoag/ah-simplesamlphp.git
 ./ah-simplesamlphp/sso.sh sitename [db [samldb]]
 ```
 
+configphp.txt is from: https://gist.github.com/acquialibrary/8059715
