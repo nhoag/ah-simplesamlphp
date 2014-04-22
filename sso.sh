@@ -3,12 +3,34 @@
 set -o nounset
 set -o errexit
 
+function usage() {
+    cat <<EOF
+
+    Usage: ${0} sitename [db [samldb]]
+
+    OPTIONS:
+      -h        Show usage
+
+EOF
+exit
+}
+
+while getopts "h" OPTION; do
+  case $OPTION in
+    h) usage ;;
+  esac
+done
+
+if [ $# -eq 0 ]; then
+  usage
+fi
 CWD=$PWD
-DRUSH=`which drush`
-MAKEFILE=$PWD/$1
+MAKE=$1
+MAKEFILE=$PWD/$MAKE
 SITENAME=$2
 DB=${3:-$SITENAME}
 SAMLDB=${4:-$DB}
+DRUSH=`which drush`
 CURL=`which curl`
 GZIP=`which gzip`
 TAR=`which tar`
